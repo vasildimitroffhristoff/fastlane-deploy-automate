@@ -15,12 +15,6 @@
 
 default_platform(:android)
 
-######################
-######################
-##### BEFORE ALL #####
-######################
-######################
-
 # before_all do |lane, options|
 #   ensure_git_branch(
 #     branch: 'develop'
@@ -28,11 +22,6 @@ default_platform(:android)
 #   git_pull()
 # end
 
-######################
-######################
-##### ANDROID    #####
-######################
-######################
 platform :android do
   desc "Update version number and version name ..."
     lane :update_version do     
@@ -66,7 +55,7 @@ platform :android do
       end
 
       git_add(path: "./*")
-      git_commit(path: "./*", message: "Version Bump to 1.0.0")
+      git_commit(path: "./*", message: "Version Bump to #{options[:build_number]}")
 
       push_to_git_remote(
         remote: "origin",         # optional, default: "origin"
