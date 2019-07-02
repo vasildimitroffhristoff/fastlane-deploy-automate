@@ -67,6 +67,10 @@ platform :android do
         no_verify: true,# optional, default: false
         set_upstream: true        # optional, default: false
       )
+      add_git_tag(
+        tag: "v#{options[:build_number]}"
+      )
+      push_git_tags
       # commit_tag_and_push_version_bump
     end
      
