@@ -64,7 +64,9 @@ platform :android do
       else
         raise "Invalid bump type '#{type}'"
       end
-    
+
+      git_add(path: "./*")
+      git_commit(path: "./*", message: "Version Bump to 1.0.0")
       # commit_tag_and_push_version_bump
     end
      
