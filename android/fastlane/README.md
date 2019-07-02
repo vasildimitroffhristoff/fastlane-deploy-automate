@@ -26,6 +26,11 @@ Update version number and version name ...
 fastlane android test
 ```
 Test command ...
+### android bump_version
+```
+fastlane android bump_version
+```
+
 
 ----
 

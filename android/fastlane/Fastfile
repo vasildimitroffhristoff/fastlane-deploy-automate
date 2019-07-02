@@ -21,12 +21,12 @@ default_platform(:android)
 ######################
 ######################
 
-before_all do |lane, options|
-  ensure_git_branch(
-    branch: 'develop'
-  )
-  git_pull()
-end
+# before_all do |lane, options|
+#   ensure_git_branch(
+#     branch: 'develop'
+#   )
+#   git_pull()
+# end
 
 ######################
 ######################
@@ -48,8 +48,26 @@ platform :android do
 
   desc "Test command ..."
     lane :test do 
-      git_pull()
-    end    
+      last_git_tag()
+    end   
+    
+    lane :bump_version do |options|
+      type = options.fetch(:type)
+    
+      case type
+      when "major", "minor", "patch"
+        increment_version_code()
+        # increment_version_number(bump_type: type)
+        android_set_version_name(
+          version_name: options[:build_number]
+      )
+      else
+        raise "Invalid bump type '#{type}'"
+      end
+    
+      # commit_tag_and_push_version_bump
+    end
+     
 
   # desc "Submit a new Beta Build to Crashlytics Beta"
   # lane :beta do
