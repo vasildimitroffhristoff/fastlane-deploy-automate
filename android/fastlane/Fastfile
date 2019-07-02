@@ -16,23 +16,41 @@
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
+  desc "Update version number and version name ..."
+    lane :update_version do 
+      ensure_git_branch(
+        branch: 'develop'
+      )
+      
+      increment_version_code()
+      android_set_version_name(
+        version_name: "1.23.4",
+        gradle_file: "app/build.gradle" # optional
+      )
+      # git pull  develop branch
+      # option for version name
+      # git add . git commit git push
+    
+    end  
+
+  desc "Test command ..."
+    lane :test do 
+      git_pull()
+    end    
+
+  # desc "Submit a new Beta Build to Crashlytics Beta"
+  # lane :beta do
+  #   gradle(task: "clean assembleRelease")
+  #   crashlytics
   
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
+  #   # sh "your_script.sh"
+  #   # You can also use other beta testing services here
+  # end
 
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
-  end
+  # desc "Deploy a new version to the Google Play"
+  # lane :deploy do
+  #   gradle(task: "clean assembleRelease")
+  #   upload_to_play_store
+  # end
 end
