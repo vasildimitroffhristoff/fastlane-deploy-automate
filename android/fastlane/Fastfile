@@ -71,7 +71,7 @@ platform :android do
         tag: "v#{options[:build_number]}"
       )
       push_git_tags
-      sh "./generate_changelog.sh"
+      sh("sudo","generate_changelog.sh")
     end
      
 
