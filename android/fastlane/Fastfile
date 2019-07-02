@@ -67,6 +67,17 @@ platform :android do
 
       git_add(path: "./*")
       git_commit(path: "./*", message: "Version Bump to 1.0.0")
+
+      push_to_git_remote(
+        remote: "origin",         # optional, default: "origin"
+        local_branch: "develop",  # optional, aliased by "branch", default is set to current branch
+        remote_branch: "develop", # optional, default is set to local_branch
+        force: true,    # optional, default: false
+        force_with_lease: true,   # optional, default: false
+        tags: false,    # optional, default: true
+        no_verify: true,# optional, default: false
+        set_upstream: true        # optional, default: false
+      )
       # commit_tag_and_push_version_bump
     end
      
