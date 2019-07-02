@@ -37,7 +37,7 @@ platform :android do
 
   desc "Test command ..."
     lane :test do 
-      last_git_tag()
+      changelog_from_git_commits
     end   
     
     lane :bump_version do |options|
