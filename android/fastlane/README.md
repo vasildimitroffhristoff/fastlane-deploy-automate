@@ -16,16 +16,11 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## Android
-### android test
-```
-fastlane android test
-```
-Test command ...
 ### android build_beta
 ```
 fastlane android build_beta
 ```
-
+Create beta buid ...
 ### android build_android
 ```
 fastlane android build_android
