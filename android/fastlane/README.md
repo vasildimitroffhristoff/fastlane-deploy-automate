@@ -16,11 +16,6 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## Android
-### android update_version
-```
-fastlane android update_version
-```
-Update version number and version name ...
 ### android test
 ```
 fastlane android test
@@ -29,6 +24,11 @@ Test command ...
 ### android bump_version
 ```
 fastlane android bump_version
+```
+
+### android build_android
+```
+fastlane android build_android
 ```
 
 

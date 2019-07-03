@@ -13,28 +13,20 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+
+# Internal test line
+# Set Global variables
+
 default_platform(:android)
 
-# before_all do |lane, options|
-#   ensure_git_branch(
-#     branch: 'develop'
-#   )
-#   git_pull()
-# end
+before_all do |lane, options|
+  ensure_git_branch(
+    branch: 'develop'
+  )
+  git_pull()
+end
 
 platform :android do
-  desc "Update version number and version name ..."
-    lane :update_version do     
-      increment_version_code()
-      android_set_version_name(
-        version_name: "1.23.4"
-      )
-      # git pull  develop branch
-      # option for version name
-      # git add . git commit git push
-    
-    end  
-
   desc "Test command ..."
     lane :test do 
       changelog_from_git_commits
@@ -58,35 +50,70 @@ platform :android do
       git_commit(path: "./*", message: "Version Bump to #{options[:build_number]}")
 
       push_to_git_remote(
-        remote: "origin",         # optional, default: "origin"
-        local_branch: "develop",  # optional, aliased by "branch", default is set to current branch
-        remote_branch: "develop", # optional, default is set to local_branch
-        force: true,    # optional, default: false
-        force_with_lease: true,   # optional, default: false
+        remote: "origin",         
+        local_branch: "develop",  
+        remote_branch: "develop", 
         tags: false,    # optional, default: true
         no_verify: true,# optional, default: false
-        set_upstream: true        # optional, default: false
+        set_upstream: true
       )
+
+      comments = changelog_from_git_commits(
+        between: [last_git_tag, "HEAD"],
+        pretty: "- %s",
+        date_format: "short",
+        match_lightweight_tag: false, 
+        merge_commit_filtering: "exclude_merges" 
+    ) 
+
       add_git_tag(
-        tag: "v#{options[:build_number]}"
+        message: comments,
+        tag: "v#{options[:build_number]}",
+        prefix: "v",
+        build_number: options[:build_number]
       )
       push_git_tags
-      sh("sudo","touch","changelog.txt")
+      sh("sudo","touch","changelog.txt") # replace with github_changelog_generator -t <github_token> on original repo
     end
-     
 
-  # desc "Submit a new Beta Build to Crashlytics Beta"
-  # lane :beta do
-  #   gradle(task: "clean assembleRelease")
-  #   crashlytics
-  
-  #   # sh "your_script.sh"
-  #   # You can also use other beta testing services here
-  # end
+    lane :build_android do 
+      gradle(task: 'clean', project_dir: './')
+      gradle(task: 'assemble', build_type: 'Release', project_dir: './')
+      # UNCOMMENT AND REPLACE LATER /MentorApp/android/app/mentorapp.keystore
+
+      # gradle(
+      #   task: 'assemble',
+      #   build_type: 'Release',
+      #   #flavor: 'com.sunsuper.acpt',
+      #   properties: {
+      #     "android.injected.signing.store.file" => "/Users/ben/ben_ws/certs/Android/SunsuperAndroidKeyStore.jks",
+      #     "android.injected.signing.store.password" => "[storepassword]",
+      #     "android.injected.signing.key.alias" => "[keystore alias]",
+      #     "android.injected.signing.key.password" => "[key password]",
+      #   }
+      # )
+
+      # crashlytics(
+      #   api_token: '[api token]',
+      #   build_secret: '[build secret]',
+      #   apk_path: "yourpath/apk/app-integ-release.apk"
+      # )
+
+      # crashlytics(
+      #   api_token: '[api token]',
+      #   build_secret: '[build secret]',
+      #   apk_path: "yourpath/apk/app-acpt-release.apk"
+      # )
+
+      # crashlytics(
+      #   api_token: '[api token]',
+      #   build_secret: '[build secret]',
+      #   apk_path: "yourpath/apk/app-prod-release.apk"
+      # )
+    end
 
   # desc "Deploy a new version to the Google Play"
   # lane :deploy do
-  #   gradle(task: "clean assembleRelease")
   #   upload_to_play_store
   # end
 end
