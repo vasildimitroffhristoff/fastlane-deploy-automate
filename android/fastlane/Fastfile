@@ -32,22 +32,27 @@ platform :android do
       changelog_from_git_commits
     end   
     
-    lane :bump_version do |options|
-      type = options.fetch(:type)
-    
-      case type
-      when "major", "minor", "patch"
-        increment_version_code()
-        # increment_version_number(bump_type: type)
-        android_set_version_name(
-          version_name: options[:build_number]
+    lane :build_beta do |options|
+      increment_version_code()
+      # increment_version_number(bump_type: type)
+      android_set_version_name(
+          version_name: options[:version]
       )
-      else
-        raise "Invalid bump type '#{type}'"
-      end
+      # type = options.fetch(:type)
+    
+      # case type
+      # when "major", "minor", "patch"
+      #   increment_version_code()
+      #   # increment_version_number(bump_type: type)
+      #   android_set_version_name(
+      #     version_name: options[:version]
+      # )
+      # else
+      #   raise "Invalid bump type '#{type}'"
+      # end
 
       git_add(path: "./*")
-      git_commit(path: "./*", message: "Version Bump to #{options[:build_number]}")
+      git_commit(path: "./*", message: "Version Bump to #{options[:version]}")
 
       push_to_git_remote(
         remote: "origin",         
@@ -68,9 +73,9 @@ platform :android do
 
       add_git_tag(
         message: comments,
-        tag: "v#{options[:build_number]}",
+        tag: "v#{options[:version]}",
         prefix: "v",
-        build_number: options[:build_number]
+        build_number: options[:version]
       )
       push_git_tags
       sh("sudo","touch","changelog.txt") # replace with github_changelog_generator -t <github_token> on original repo
