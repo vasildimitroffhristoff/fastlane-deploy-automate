@@ -27,11 +27,7 @@ before_all do |lane, options|
 end
 
 platform :android do
-  desc "Test command ..."
-    lane :test do 
-      changelog_from_git_commits
-    end   
-    
+  desc "Create beta buid ..."
     lane :build_beta do |options|
       increment_version_code()
       # increment_version_number(bump_type: type)
