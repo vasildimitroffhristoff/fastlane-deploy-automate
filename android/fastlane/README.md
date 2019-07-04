@@ -21,9 +21,9 @@ or alternatively using `brew cask install fastlane`
 fastlane android get_version
 ```
 The current version is -
-### android gen_changelog
+### android generate_changelog
 ```
-fastlane android gen_changelog
+fastlane android generate_changelog
 ```
 Gen changelog
 ### android update_version

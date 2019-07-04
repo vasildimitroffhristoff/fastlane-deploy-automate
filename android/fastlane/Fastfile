@@ -35,11 +35,6 @@ platform :android do
     android_get_version_code(
       gradle_file: "app/build.gradle" # optional
     )
-    # value = android_get_version_name(
-    #       gradle_file_path:"project/build.gradle",
-    #       ext_constant_name:"versionName"
-    #       )
-    # puts "VALUE = #{value}"
   end
 
   desc "Gen changelog"
