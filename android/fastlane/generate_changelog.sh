@@ -1,3 +1,6 @@
-# !/bin/bash
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
 
-touch ./changelog.txt
+cd ../../ # navigate to the root folder
+github_changelog_generator --token $GIT_KEY

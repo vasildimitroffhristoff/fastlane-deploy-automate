@@ -41,6 +41,12 @@ platform :android do
     #       )
     # puts "VALUE = #{value}"
   end
+
+  desc "Gen changelog"
+    lane :gen_changelog do 
+      sh("sh","./generate_changelog.sh") 
+    end
+
   desc "Create beta buid ..."
     lane :update_version do |options|
       increment_version_code()
