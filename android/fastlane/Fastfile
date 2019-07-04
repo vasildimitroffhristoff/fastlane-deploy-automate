@@ -116,7 +116,7 @@ platform :android do
 
     lane :generate_apk do 
       gradle(task: 'clean', project_dir: './')
-      gradle(task: 'assemble', build_type: 'Release', project_dir: './')
+      gradle(task: 'bundle', build_type: 'Release', project_dir: './')
       # UNCOMMENT AND REPLACE LATER /MentorApp/android/app/mentorapp.keystore
 
       # gradle(
@@ -124,29 +124,11 @@ platform :android do
       #   build_type: 'Release',
       #   #flavor: 'com.sunsuper.acpt',
       #   properties: {
-      #     "android.injected.signing.store.file" => "/Users/ben/ben_ws/certs/Android/SunsuperAndroidKeyStore.jks",
+      #     "android.injected.signing.store.file" => "/app/mentorapp.keystore",
       #     "android.injected.signing.store.password" => "[storepassword]",
       #     "android.injected.signing.key.alias" => "[keystore alias]",
       #     "android.injected.signing.key.password" => "[key password]",
       #   }
-      # )
-
-      # crashlytics(
-      #   api_token: '[api token]',
-      #   build_secret: '[build secret]',
-      #   apk_path: "yourpath/apk/app-integ-release.apk"
-      # )
-
-      # crashlytics(
-      #   api_token: '[api token]',
-      #   build_secret: '[build secret]',
-      #   apk_path: "yourpath/apk/app-acpt-release.apk"
-      # )
-
-      # crashlytics(
-      #   api_token: '[api token]',
-      #   build_secret: '[build secret]',
-      #   apk_path: "yourpath/apk/app-prod-release.apk"
       # )
     end
 
