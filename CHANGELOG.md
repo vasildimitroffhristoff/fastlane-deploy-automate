@@ -1,5 +1,11 @@
 # Change Log
 
+## [v6.2.2](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/tree/v6.2.2) (2019-07-04)
+[Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v6.2.1...v6.2.2)
+
+## [v6.2.1](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/tree/v6.2.1) (2019-07-04)
+[Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v6.1.3...v6.2.1)
+
 ## [v6.1.3](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/tree/v6.1.3) (2019-07-04)
 [Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v6.1.2...v6.1.3)
 
@@ -82,16 +88,16 @@
 [Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v2.0.3...v2.0.4)
 
 ## [v2.0.3](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/tree/v2.0.3) (2019-07-02)
-[Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v2.0.2...v2.0.3)
-
-## [v2.0.2](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/tree/v2.0.2) (2019-07-02)
-[Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v1.2.3...v2.0.2)
-
-## [v1.2.3](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/tree/v1.2.3) (2019-07-02)
-[Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v2.0.1...v1.2.3)
+[Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v2.0.1...v2.0.3)
 
 ## [v2.0.1](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/tree/v2.0.1) (2019-07-02)
-[Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v2.0.0...v2.0.1)
+[Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v1.2.3...v2.0.1)
+
+## [v1.2.3](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/tree/v1.2.3) (2019-07-02)
+[Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v2.0.2...v1.2.3)
+
+## [v2.0.2](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/tree/v2.0.2) (2019-07-02)
+[Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v2.0.0...v2.0.2)
 
 ## [v2.0.0](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/tree/v2.0.0) (2019-07-02)
 [Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v1.1.0...v2.0.0)
