@@ -1,5 +1,8 @@
 # Change Log
 
+## [v7.0.0](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/tree/v7.0.0) (2019-07-04)
+[Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v6.5.0...v7.0.0)
+
 ## [v6.5.0](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/tree/v6.5.0) (2019-07-04)
 [Full Changelog](https://github.com/vasildimitroffhristoff/fastlane-deploy-automate/compare/v6.4.0...v6.5.0)
 
