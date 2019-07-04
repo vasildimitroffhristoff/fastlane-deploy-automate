@@ -27,6 +27,20 @@ before_all do |lane, options|
 end
 
 platform :android do
+  desc "The current version is -"
+  lane :get_version do
+    android_get_version_name(
+      gradle_file: "app/build.gradle" # optional
+    )
+    android_get_version_code(
+      gradle_file: "app/build.gradle" # optional
+    )
+    # value = android_get_version_name(
+    #       gradle_file_path:"project/build.gradle",
+    #       ext_constant_name:"versionName"
+    #       )
+    # puts "VALUE = #{value}"
+  end
   desc "Create beta buid ..."
     lane :update_version do |options|
       increment_version_code()
