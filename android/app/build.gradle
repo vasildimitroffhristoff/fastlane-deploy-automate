@@ -105,8 +105,8 @@ android {
         applicationId "com.fl"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 23
-        versionName "5.1.2"
+        versionCode 24
+        versionName "5.2.0"
     }
     splits {
         abi {
