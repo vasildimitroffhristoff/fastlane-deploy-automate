@@ -43,8 +43,8 @@ platform :android do
   end
 
   desc "Gen changelog"
-    lane :gen_changelog do 
-      sh("sh","./generate_changelog.sh") 
+    lane :generate_changelog do 
+      sh("sh","./generate_changelog.sh")
     end
 
   desc "Create beta buid ..."
@@ -94,9 +94,17 @@ platform :android do
         build_number: options[:version]
       )
       push_git_tags
-      sh("github_changelog_generator","-t","$GIT_KEY") # replace with github_changelog_generator -t <github_token> on original repo
-      git_add(path: "../CHANGELOG.md")
-      git_commit(path: "../CHANGELOG.md", message: "Update changelog")
+      sh("sh","./generate_changelog.sh") # replace with github_changelog_generator -t <github_token> on original repo
+      git_add(path: "../../CHANGELOG.md")
+      git_commit(path: "../../CHANGELOG.md", message: "Update changelog")
+      push_to_git_remote(
+        remote: "origin",         
+        local_branch: "develop",  
+        remote_branch: "develop", 
+        tags: false,    # optional, default: true
+        no_verify: true,# optional, default: false
+        set_upstream: true
+      )
     end
 
     lane :generate_apk do 
