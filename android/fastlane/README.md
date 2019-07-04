@@ -16,6 +16,21 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## Android
+### android bump_version
+```
+fastlane android bump_version
+```
+Increment version code and name
+### android commit_bump_version
+```
+fastlane android commit_bump_version
+```
+Commit and push bumped version and name
+### android generate_changelog
+```
+fastlane android generate_changelog
+```
+Generate CHANGELOG.md
 ### android get_version
 ```
 fastlane android get_version

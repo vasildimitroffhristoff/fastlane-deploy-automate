@@ -42,10 +42,9 @@ platform :android do
   end
 
   desc "Generate CHANGELOG.md"
-    lane :generate_changelog 
+    lane :generate_changelog do
     sh("sh","./generate_changelog.sh")
-  end
-   
+  end 
   ####################################################
   # GETS THE CURRENT BUILD VERSION
   ####################################################
