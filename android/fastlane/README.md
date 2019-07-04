@@ -21,9 +21,9 @@ or alternatively using `brew cask install fastlane`
 fastlane android build_beta
 ```
 Create beta buid ...
-### android build_android
+### android generate_apk
 ```
-fastlane android build_android
+fastlane android generate_apk
 ```
 
 

@@ -28,7 +28,7 @@ end
 
 platform :android do
   desc "Create beta buid ..."
-    lane :build_beta do |options|
+    lane :update_version do |options|
       increment_version_code()
       # increment_version_number(bump_type: type)
       android_set_version_name(
@@ -77,7 +77,7 @@ platform :android do
       sh("sudo","touch","changelog.txt") # replace with github_changelog_generator -t <github_token> on original repo
     end
 
-    lane :build_android do 
+    lane :generate_apk do 
       gradle(task: 'clean', project_dir: './')
       gradle(task: 'assemble', build_type: 'Release', project_dir: './')
       # UNCOMMENT AND REPLACE LATER /MentorApp/android/app/mentorapp.keystore
