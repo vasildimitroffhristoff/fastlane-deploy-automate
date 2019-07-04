@@ -1,6 +1,11 @@
 default_platform(:android)
 
+####################################################
+  # !! The branch is DEVELOP / 
+  # EXECUTES BEFORE ALL LANES
+####################################################
 before_all do |lane, options|
+  ensure_git_status_clean
   ensure_git_branch(
     branch: 'develop'
   )
@@ -8,55 +13,51 @@ before_all do |lane, options|
 end
 
 platform :android do
+  ####################################################
+  # GETS THE CURRENT BUILD VERSION
+  ####################################################
   desc "The current version is -"
   lane :get_version do
     android_get_version_name(
-      gradle_file: "app/build.gradle" # optional
+      gradle_file: "app/build.gradle"
     )
     android_get_version_code(
-      gradle_file: "app/build.gradle" # optional
+      gradle_file: "app/build.gradle"
     )
   end
 
+  ####################################################
+  # UPDATE VERSION, TAGS, GENERAGE CHANGELOG, 
+  # COMMIT AND PUSH CHANGES
+  ####################################################
   desc "Create beta buid ..."
     lane :update_version do |options|
+      # -- 1. Increment code and change version name a
+      # -- 2. Commit and push changes to the repo
       increment_version_code()
-      # increment_version_number(bump_type: type)
       android_set_version_name(
           version_name: options[:version]
       )
-      # type = options.fetch(:type)
-    
-      # case type
-      # when "major", "minor", "patch"
-      #   increment_version_code()
-      #   # increment_version_number(bump_type: type)
-      #   android_set_version_name(
-      #     version_name: options[:version]
-      # )
-      # else
-      #   raise "Invalid bump type '#{type}'"
-      # end
-
-      git_add(path: "./*")
-      git_commit(path: "./*", message: "Version Bump to #{options[:version]}")
+      git_add(path: "./app/build.gradle")
+      git_commit(path: "./app/build.gradle", message: "Version Bump to #{options[:version]}")
 
       push_to_git_remote(
         remote: "origin",         
         local_branch: "develop",  
         remote_branch: "develop", 
-        tags: false,    # optional, default: true
-        no_verify: true,# optional, default: false
+        tags: false,
+        no_verify: true,
         set_upstream: true
       )
 
+      # -- Update tags, commit and push
       comments = changelog_from_git_commits(
         between: [last_git_tag, "HEAD"],
         pretty: "- %s",
         date_format: "short",
         match_lightweight_tag: false, 
         merge_commit_filtering: "exclude_merges" 
-    ) 
+      ) 
 
       add_git_tag(
         message: comments,
@@ -65,15 +66,18 @@ platform :android do
         build_number: options[:version]
       )
       push_git_tags
-      sh("sh","./generate_changelog.sh") # replace with github_changelog_generator -t <github_token> on original repo
+
+      # -- 1. Execute shell script which generates changelog 
+      # -- 2. Push and commit changes
+      sh("sh","./generate_changelog.sh")
       git_add(path: "../CHANGELOG.md")
       git_commit(path: "../CHANGELOG.md", message: "Update changelog")
       push_to_git_remote(
         remote: "origin",         
         local_branch: "develop",  
         remote_branch: "develop", 
-        tags: false,    # optional, default: true
-        no_verify: true,# optional, default: false
+        tags: false,
+        no_verify: true,
         set_upstream: true
       )
     end
