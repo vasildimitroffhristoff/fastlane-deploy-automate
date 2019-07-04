@@ -88,7 +88,7 @@ platform :android do
         build_number: options[:version]
       )
       push_git_tags
-      sh("github_changelog_generator","-t","0c11fc79a83ac951755cde3095d58c8c3213ef33") # replace with github_changelog_generator -t <github_token> on original repo
+      sh("github_changelog_generator","-t","$GIT_KEY") # replace with github_changelog_generator -t <github_token> on original repo
       git_add(path: "../CHANGELOG.md")
       git_commit(path: "../CHANGELOG.md", message: "Update changelog")
     end
