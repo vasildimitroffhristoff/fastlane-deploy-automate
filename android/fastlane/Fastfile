@@ -1,5 +1,4 @@
 default_platform(:android)
-
 ####################################################
   # !! The branch is DEVELOP / 
   # EXECUTES BEFORE ALL LANES
@@ -13,6 +12,40 @@ before_all do |lane, options|
 end
 
 platform :android do
+####################################################
+              # *********** 
+        #SEPARATED SMALL HELPER COMMANDS 
+          #FOR EACH STEP OF THE DOC 
+              # ***********
+####################################################
+  desc "Increment version code and name"
+    lane :bump_version do |options|
+      increment_version_code()
+      android_set_version_name(
+          version_name: options[:version]
+      )
+  end
+
+  desc "Commit and push bumped version and name"
+  lane :commit_bump_version do |options|
+    git_add(path: "./app/build.gradle")
+    git_commit(path: "./app/build.gradle", message: "Version Bump to #{options[:version]}")
+
+    push_to_git_remote(
+      remote: "origin",         
+      local_branch: "develop",  
+      remote_branch: "develop", 
+      tags: false,
+      no_verify: true,
+      set_upstream: true
+    )
+  end
+
+  desc "Generate CHANGELOG.md"
+    lane :generate_changelog 
+    sh("sh","./generate_changelog.sh")
+  end
+   
   ####################################################
   # GETS THE CURRENT BUILD VERSION
   ####################################################
