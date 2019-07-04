@@ -88,7 +88,7 @@ platform :android do
         build_number: options[:version]
       )
       push_git_tags
-      sh("github_changelog_generator","-t","") # replace with github_changelog_generator -t <github_token> on original repo
+      sh("github_changelog_generator","-t","GIT_TOKEN") # replace with github_changelog_generator -t <github_token> on original repo
     end
 
     lane :generate_apk do 
