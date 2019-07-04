@@ -90,8 +90,8 @@ platform :android do
       )
       push_git_tags
       sh("sh","./generate_changelog.sh") # replace with github_changelog_generator -t <github_token> on original repo
-      git_add(path: "../../CHANGELOG.md")
-      git_commit(path: "../../CHANGELOG.md", message: "Update changelog")
+      git_add(path: "../CHANGELOG.md")
+      git_commit(path: "../CHANGELOG.md", message: "Update changelog")
       push_to_git_remote(
         remote: "origin",         
         local_branch: "develop",  
