@@ -1,38 +1,138 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:android)
+####################################################
+  # !! The branch is DEVELOP / 
+  # EXECUTES BEFORE ALL LANES
+####################################################
+before_all do |lane, options|
+  ensure_git_status_clean
+  ensure_git_branch(
+    branch: 'develop'
+  )
+  git_pull()
+end
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
+####################################################
+              # *********** 
+        #SEPARATED SMALL HELPER COMMANDS 
+          #FOR EACH STEP OF THE DOC 
+              # ***********
+####################################################
+  desc "Increment version code and name"
+    lane :bump_version do |options|
+      increment_version_code()
+      android_set_version_name(
+          version_name: options[:version]
+      )
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
+  desc "Commit and push bumped version and name"
+  lane :commit_bump_version do |options|
+    git_add(path: "./app/build.gradle")
+    git_commit(path: "./app/build.gradle", message: "Version Bump to #{options[:version]}")
+
+    push_to_git_remote(
+      remote: "origin",         
+      local_branch: "develop",  
+      remote_branch: "develop", 
+      tags: false,
+      no_verify: true,
+      set_upstream: true
+    )
   end
 
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
+  desc "Generate CHANGELOG.md"
+    lane :generate_changelog do
+    sh("sh","./generate_changelog.sh")
+  end 
+  ####################################################
+  # GETS THE CURRENT BUILD VERSION
+  ####################################################
+  desc "The current version is -"
+  lane :get_version do
+    android_get_version_name(
+      gradle_file: "app/build.gradle"
+    )
+    android_get_version_code(
+      gradle_file: "app/build.gradle"
+    )
   end
+
+  ####################################################
+  # UPDATE VERSION, TAGS, GENERAGE CHANGELOG, 
+  # COMMIT AND PUSH CHANGES
+  ####################################################
+  desc "Create beta buid ..."
+    lane :update_version do |options|
+      # -- 1. Increment code and change version name a
+      # -- 2. Commit and push changes to the repo
+      increment_version_code()
+      android_set_version_name(
+          version_name: options[:version]
+      )
+      git_add(path: "./app/build.gradle")
+      git_commit(path: "./app/build.gradle", message: "Version Bump to #{options[:version]}")
+
+      push_to_git_remote(
+        remote: "origin",         
+        local_branch: "develop",  
+        remote_branch: "develop", 
+        tags: false,
+        no_verify: true,
+        set_upstream: true
+      )
+
+      # -- Update tags, commit and push
+      comments = changelog_from_git_commits(
+        between: [last_git_tag, "HEAD"],
+        pretty: "- %s",
+        date_format: "short",
+        match_lightweight_tag: false, 
+        merge_commit_filtering: "exclude_merges" 
+      ) 
+
+      add_git_tag(
+        message: comments,
+        tag: "v#{options[:version]}",
+        prefix: "v",
+        build_number: options[:version]
+      )
+      push_git_tags
+
+      # -- 1. Execute shell script which generates changelog 
+      # -- 2. Push and commit changes
+      sh("sh","./generate_changelog.sh")
+      git_add(path: "../CHANGELOG.md")
+      git_commit(path: "../CHANGELOG.md", message: "Update changelog")
+      push_to_git_remote(
+        remote: "origin",         
+        local_branch: "develop",  
+        remote_branch: "develop", 
+        tags: false,
+        no_verify: true,
+        set_upstream: true
+      )
+    end
+
+    lane :generate_apk do 
+      gradle(task: 'clean', project_dir: './')
+      gradle(task: 'bundle', build_type: 'Release', project_dir: './app/release')
+
+      # gradle(
+      #   task: 'assemble',
+      #   build_type: 'Release',
+      #   project_dir: './'
+      #   properties: {
+      #     "android.injected.signing.store.file" => "/app/mentorapp.keystore",
+      #     "android.injected.signing.store.password" => "[storepassword]",
+      #     "android.injected.signing.key.alias" => "[keystore alias]",
+      #     "android.injected.signing.key.password" => "[key password]",
+      #   }
+      # )
+    end
+
+  # desc "Deploy a new version to the Google Play"
+  # lane :deploy do
+  #   upload_to_play_store
+  # end
 end
